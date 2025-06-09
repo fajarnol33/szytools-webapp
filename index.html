@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szytools - MVP</title>
+    <title>Szytools - Mesin Pemecah Jurnal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,13 +28,16 @@
                 <button id="decompose-button">DECOMPOSE</button>
             </div>
             <div id="loading-indicator" class="loading-hidden">Menganalisis... Mohon tunggu.</div>
-            <div id="dashboard"></div>
+            <div id="dashboard">
+                </div>
         </main>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>

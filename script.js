@@ -1,4 +1,4 @@
-// Konfigurasi Firebase Anda (seharusnya sudah benar)
+// Konfigurasi Firebase Anda.
 const firebaseConfig = {
   apiKey: "AIzaSyDApOKwNr5duAoviez8Sx1JyN4Idi68Bso",
   authDomain: "szytools-app.firebaseapp.com",
@@ -9,20 +9,18 @@ const firebaseConfig = {
   measurementId: "G-SD5T7C75R7"
 };
 
+// Kunci API Google Gemini Anda.
+const GEMINI_API_KEY = "AIzaSyCUlwZVtmCSO96jhVwjkSkI4uZcH5tBYRU";
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
 // Inisialisasi Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Kunci API Google Gemini Anda
-const GEMINI_API_KEY = "AIzaSyCUlwZVtmCSO96jhVwjkSkI4uZcH5tBYRU"; 
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-
 // Menunggu seluruh halaman HTML siap
 document.addEventListener('DOMContentLoaded', function () {
     
-    // "Mengenalkan" kode pada semua elemen penting di HTML
     const loginContainer = document.getElementById('login-container');
     const appContainer = document.getElementById('app-container');
     const loginButton = document.getElementById('login-button');
@@ -33,45 +31,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const dashboard = document.getElementById('dashboard');
     const loadingIndicator = document.getElementById('loading-indicator');
 
-    // --- LOGIKA UTAMA ADA DI SINI ---
-
-    // 1. Membuat tombol Login berfungsi
+    // --- LOGIKA AUTENTIKASI ---
     loginButton.onclick = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider);
     };
 
-    // 2. Membuat tombol Logout berfungsi
     logoutButton.onclick = () => {
         auth.signOut();
     };
 
-    // 3. "Penjaga" yang memantau status login pengguna
     auth.onAuthStateChanged(async (user) => {
         if (user) {
-            // JIKA PENGGUNA SUDAH LOGIN:
             loginContainer.style.display = 'none';
             appContainer.style.display = 'block';
-
             const userRef = db.collection('users').doc(user.uid);
             const doc = await userRef.get();
-
             if (!doc.exists) {
-                // Pengguna baru, buatkan data untuknya
-                await userRef.set({
-                    email: user.email,
-                    name: user.displayName,
-                    credits: 10
-                });
+                await userRef.set({ email: user.email, name: user.displayName, credits: 10 });
                 userInfo.innerText = `Halo, ${user.displayName} | Sisa Kredit: 10`;
             } else {
-                // Pengguna lama, tampilkan datanya
                 const userData = doc.data();
                 userInfo.innerText = `Halo, ${userData.name} | Sisa Kredit: ${userData.credits}`;
             }
-
         } else {
-            // JIKA PENGGUNA TIDAK LOGIN:
             loginContainer.style.display = 'block';
             appContainer.style.display = 'none';
         }
@@ -84,23 +67,27 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
         const data = await response.json();
-        if (data.candidates && data.candidates.length > 0) return data.candidates[0].content.parts[0].text;
-        else { console.error("API Error:", data); return "Terjadi kesalahan saat menganalisis."; }
+        if (data.candidates && data.candidates.length > 0) {
+            return data.candidates[0].content.parts[0].text;
+        } else {
+            console.error("API Error:", data);
+            return "Terjadi kesalahan saat menganalisis bagian ini. Kemungkinan input terlalu pendek atau tidak relevan.";
+        }
     }
 
     decomposeButton.onclick = async function () {
         const user = auth.currentUser;
-        if (!user) return; 
-
+        if (!user) return;
+        
         const userRef = db.collection('users').doc(user.uid);
         const doc = await userRef.get();
+        if(!doc.exists) return;
         const userData = doc.data();
-
+        
         if (userData.credits <= 0) {
             alert("Kredit analisis Anda sudah habis. Silakan upgrade ke paket berbayar.");
             return;
         }
-
         const text = articleText.value;
         if (!text.trim()) { alert("Harap masukkan teks jurnal."); return; }
 
@@ -111,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function () {
         
         const base_prompt = `Berdasarkan teks berikut:\n---\n${text.substring(0, 30000)}\n---\n\n`;
         const prompts = {
-            petaArgumen: callGemini(base_prompt + "Analisis dan buat Peta Argumen dari teks ini (Tesis Utama, Argumen Pendukung, Bukti)."),
-            rontgenMetodologi: callGemini(base_prompt + "Fokus HANYA pada metodologi. Ekstrak Desain Penelitian, Sampel, dan Teknik Pengumpulan Data."),
-            pemicuKritis: callGemini(base_prompt + "Bertindak sebagai penguji ahli, ajukan 3 pertanyaan kritis tentang kelemahan penelitian ini.")
+            petaArgumen: callGemini(base_prompt + "Analisis dan buat Peta Argumen dari teks ini (Tesis Utama, Argumen Pendukung, Bukti). Format jawabanmu menggunakan Markdown untuk bold dan list."),
+            rontgenMetodologi: callGemini(base_prompt + "Fokus HANYA pada metodologi. Ekstrak Desain Penelitian, Sampel, dan Teknik Pengumpulan Data. Format jawabanmu menggunakan Markdown."),
+            pemicuKritis: callGemini(base_prompt + "Bertindak sebagai penguji ahli, ajukan 3 pertanyaan kritis tentang potensi kelemahan penelitian ini dalam bentuk numbered list Markdown.")
         };
 
         try {
@@ -121,15 +108,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const [petaArgumen, rontgenMetodologi, pemicuKritis] = results;
 
             dashboard.innerHTML = `
-                <div class="module"><h2>Peta Argumen</h2><p>${petaArgumen.replace(/\n/g, '<br>')}</p></div>
-                <div class="module"><h2>Rontgen Metodologi</h2><p>${rontgenMetodologi.replace(/\n/g, '<br>')}</p></div>
-                <div class="module"><h2>Pemicu Pemikiran Kritis</h2><p>${pemicuKritis.replace(/\n/g, '<br>')}</p></div>
+                <div class="module"><h2>Peta Argumen</h2><div>${marked.parse(petaArgumen)}</div></div>
+                <div class="module"><h2>Rontgen Metodologi</h2><div>${marked.parse(rontgenMetodologi)}</div></div>
+                <div class="module"><h2>Pemicu Pemikiran Kritis</h2><div>${marked.parse(pemicuKritis)}</div></div>
             `;
 
             const newCredits = userData.credits - 1;
-            await userRef.update({
-                credits: newCredits
-            });
+            await userRef.update({ credits: newCredits });
             userInfo.innerText = `Halo, ${userData.name} | Sisa Kredit: ${newCredits}`;
 
         } catch (error) {
