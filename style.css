@@ -1,161 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #212529;
-    margin: 0;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #212529; margin: 0; padding: 40px 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
 
-.container {
-    max-width: 500px;
-    text-align: center;
-}
+/* Style untuk Layar Tunggu */
+.loader-container { text-align: center; }
+.loader-container h2 { font-size: 2.5em; font-weight: 700; color: #212529; }
+.loader-container p { font-size: 1.2em; color: #6c757d; }
 
-.page, .container {
-    width: 100%;
-    max-width: 850px;
-    background-color: #ffffff;
-    padding: 40px 50px;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    border: 1px solid #e9ecef;
-    box-sizing: border-box;
-}
+/* Class untuk menyembunyikan elemen pada awalnya */
+.initial-hidden { display: none !important; }
 
-#login-button {
-    padding: 12px 25px;
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #fff;
-    background-color: #4285F4;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.page-hidden {
-    display: none;
-}
-
-.user-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e9ecef;
-}
-
-#logout-button {
-    background-color: #db4437;
-    padding: 8px 15px;
-    font-size: 0.9em;
-    font-weight: 600;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-header {
-    text-align: center;
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    font-size: 2.8em;
-    font-weight: 700;
-    color: #212529;
-    margin: 0;
-}
-
-header p {
-    font-size: 1.2em;
-    color: #6c757d;
-    margin-top: 5px;
-}
-
-textarea {
-    width: 100%;
-    height: 250px;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-    font-size: 1em;
-    box-sizing: border-box;
-    resize: vertical;
-    margin-bottom: 20px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-textarea:focus {
-    outline: none;
-    border-color: #80bdff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-}
-
-#decompose-button {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    font-size: 1.2em;
-    font-weight: 600;
-    color: #fff;
-    background-image: linear-gradient(to right, #007bff, #0056b3);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
-}
-
-#decompose-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
-}
-
-#decompose-button:disabled {
-    background-image: none;
-    background-color: #ced4da;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.loading-hidden {
-    display: none;
-}
-
-#loading-indicator {
-    text-align: center;
-    font-weight: bold;
-    color: #007bff;
-    font-size: 1.2em;
-    padding: 20px;
-}
-
-.module {
-    margin-top: 35px;
-    border-top: 1px solid #e9ecef;
-    padding-top: 25px;
-}
-
-.module h2 {
-    font-size: 1.6em;
-    color: #0056b3;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-}
-
-.module div {
-    line-height: 1.7;
-}
+/* Sisa kode CSS sama seperti sebelumnya */
+.container { max-width: 500px; text-align: center; }
+.page, .container { width: 100%; max-width: 850px; background-color: #ffffff; padding: 40px 50px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #e9ecef; box-sizing: border-box; }
+#login-button { padding: 12px 25px; font-size: 1.1em; font-weight: 600; color: #fff; background-color: #4285F4; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.user-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #e9ecef; }
+#logout-button { background-color: #db4437; padding: 8px 15px; font-size: 0.9em; font-weight: 600; color: white; border: none; border-radius: 6px; cursor: pointer; }
+header { text-align: center; padding-bottom: 20px; margin-bottom: 30px; }
+header h1 { font-size: 2.8em; font-weight: 700; }
+header p { font-size: 1.2em; color: #6c757d; margin-top: 5px; }
+textarea { width: 100%; height: 250px; padding: 15px; border-radius: 8px; border: 1px solid #ced4da; font-size: 1em; box-sizing: border-box; resize: vertical; margin-bottom: 20px; transition: border-color 0.2s, box-shadow 0.2s; }
+textarea:focus { outline: none; border-color: #80bdff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
+#decompose-button { display: block; width: 100%; padding: 15px; font-size: 1.2em; font-weight: 600; color: #fff; background-image: linear-gradient(to right, #007bff, #0056b3); border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2); }
+#decompose-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3); }
+#decompose-button:disabled { background-image: none; background-color: #ced4da; cursor: not-allowed; transform: none; box-shadow: none; }
+.loading-hidden { display: none; }
+#loading-indicator { text-align: center; font-weight: bold; color: #007bff; font-size: 1.2em; padding: 20px; }
+.module { margin-top: 35px; border-top: 1px solid #e9ecef; padding-top: 25px; }
+.module h2 { font-size: 1.6em; color: #0056b3; border-bottom: 2px solid #007bff; padding-bottom: 8px; margin-bottom: 15px; }
+.module div { line-height: 1.7; }

@@ -7,13 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="login-container" class="container">
+    <div id="loader" class="loader-container">
+        <h2>Szytools</h2>
+        <p>Memuat...</p>
+    </div>
+
+    <div id="login-container" class="container initial-hidden">
         <h1>Selamat Datang di Szytools</h1>
         <p>Platform riset akademik terpadu. Silakan masuk untuk memulai.</p>
         <button id="login-button">Masuk dengan Google</button>
     </div>
 
-    <div id="app-container" class="page page-hidden">
+    <div id="app-container" class="page initial-hidden">
         <div class="user-bar">
             <span id="user-info">Memuat data pengguna...</span>
             <button id="logout-button">Keluar</button>
@@ -28,8 +33,7 @@
                 <button id="decompose-button">DECOMPOSE</button>
             </div>
             <div id="loading-indicator" class="loading-hidden">Menganalisis... Mohon tunggu.</div>
-            <div id="dashboard">
-                </div>
+            <div id="dashboard"></div>
         </main>
     </div>
 
@@ -37,7 +41,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
     <script src="script.js"></script>
 </body>
 </html>
