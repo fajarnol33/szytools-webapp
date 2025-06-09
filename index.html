@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szytools - MVP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="login-container" class="container">
+        <h1>Selamat Datang di Szytools</h1>
+        <p>Platform riset akademik terpadu. Silakan masuk untuk memulai.</p>
+        <button id="login-button">Masuk dengan Google</button>
+    </div>
+
+    <div id="app-container" class="page page-hidden">
+        <div class="user-bar">
+            <span id="user-info">Memuat data pengguna...</span>
+            <button id="logout-button">Keluar</button>
+        </div>
+        <header>
+            <h1>Szytools</h1>
+            <p>Mesin Pemecah Jurnal & Artikel Akademik</p>
+        </header>
+        <main>
+            <div class="input-section">
+                <textarea id="article-text" placeholder="Tempel (paste) seluruh teks artikel atau jurnal Anda di sini..."></textarea>
+                <button id="decompose-button">DECOMPOSE</button>
+            </div>
+            <div id="loading-indicator" class="loading-hidden">Menganalisis... Mohon tunggu.</div>
+            <div id="dashboard"></div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
